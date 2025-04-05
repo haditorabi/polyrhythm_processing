@@ -15,15 +15,22 @@ class NoteCircle {
     this.noteColor = color(255, 200);  // Default color (white-ish)
   }
 
-  // Method to update the position based on the spiral layout
-  void updatePosition(float tf, int index, int totalCount, float centerX, float centerY) {
+  // Update position based on the spiral layout and apply rotation to the entire set around its center
+  void updatePosition(float tf, int index, int totalCount, float centerX, float centerY, float rotationAngle) {
     float dist = sqrt(index / (float)totalCount) * height * 0.45;
     float ang = TWO_PI * tf * index;
-    x = dist * cos(ang) + width / 2;
-    y = dist * sin(ang) + height / 2;
 
-    x = lerp(x, centerX, (totalCount - index) / (totalCount * 5.0));
-    y = lerp(y, centerY, (totalCount - index) / (totalCount * 5.0));
+    // Calculate the initial position based on the spiral geometry (without rotation)
+    float baseX = dist * cos(ang) + centerX;
+    float baseY = dist * sin(ang) + centerY;
+
+    // Apply rotation to the entire set (rotate around the center)
+    float rotatedX = cos(rotationAngle) * (baseX - centerX) - sin(rotationAngle) * (baseY - centerY) + centerX;
+    float rotatedY = sin(rotationAngle) * (baseX - centerX) + cos(rotationAngle) * (baseY - centerY) + centerY;
+
+    // Smooth the position of each circle (lerp to smooth the movement)
+    x = rotatedX; // Directly assign rotatedX to x
+    y = rotatedY; // Directly assign rotatedY to y
   }
 
   // Setter for size
