@@ -15,7 +15,7 @@ class NoteSpiral {
   }
 
   void updateAndDraw() {
-    tf += 0.00001;
+    tf += 0.0001;
     rotationAngle += 0.001;  // Gradually increment the rotation angle for smooth rotation
 
     float centerX = width / 2;

@@ -1,3 +1,5 @@
+import java.util.Collections;
+import java.util.Comparator;
 class AllowedNotes {
   HashMap<String, Integer> noteMap;
 
@@ -24,11 +26,21 @@ class AllowedNotes {
     noteMap.put(name, midi);
   }
 
-  ArrayList<NoteCircle> getNoteCircles() {
-    ArrayList<NoteCircle> list = new ArrayList<NoteCircle>();
-    for (String name : noteMap.keySet()) {
-      list.add(new NoteCircle(name, noteMap.get(name)));
-    }
-    return list;
+ArrayList<NoteCircle> getNoteCircles() {
+  ArrayList<NoteCircle> list = new ArrayList<NoteCircle>();
+
+  for (String name : noteMap.keySet()) {
+    list.add(new NoteCircle(name, noteMap.get(name)));
   }
+
+  // 🔢 Sort the list by MIDI value (low to high)
+  Collections.sort(list, new Comparator<NoteCircle>() {
+    public int compare(NoteCircle a, NoteCircle b) {
+      return a.midi - b.midi;
+    }
+  });
+
+  return list;
+}
+
 }
