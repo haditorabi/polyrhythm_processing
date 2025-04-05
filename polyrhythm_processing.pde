@@ -16,7 +16,7 @@ void setup() {
   background(0);
   noStroke();
   colorMode(HSB);
-  bgImage = loadImage("gradient.jpg"); 
+  bgImage = loadImage("gradient.jpeg"); 
   spiral = new NoteSpiral();
 }
 

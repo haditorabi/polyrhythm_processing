@@ -1,3 +1,5 @@
+MidiSender midi;
+
 class NoteSpiral {
   ArrayList<NoteCircle> circles;
   float tf = 10;
@@ -7,7 +9,7 @@ class NoteSpiral {
   NoteSpiral() {
     AllowedNotes map = new AllowedNotes();
     circles = map.getNoteCircles();
-
+    midi = new MidiSender("ProcessingToDAW");
     // Initialize the LineToTop object with the center of the spiral
     line = new LineToTop(width / 2, height / 2);
   }
@@ -18,6 +20,9 @@ class NoteSpiral {
 
     float centerX = width / 2;
     float centerY = height / 2;
+    float threshold = 10;  // How close to center x to count as a collision
+
+
 
     // Apply rotation to the entire spiral set (all circles will rotate together)
     for (int i = 0; i < circles.size(); i++) {
@@ -25,7 +30,14 @@ class NoteSpiral {
       c.updatePosition(tf, i, circles.size(), centerX, centerY, rotationAngle);
       c.display();
     }
-
+    if (abs(c.x - width/2) < threshold && !c.hasPlayed) {
+      midi.sendNote(c.midi, 100, 200);  // velocity 100, duration 200ms
+      c.hasPlayed = true;  // prevent retriggering
+    }
+    
+    if (abs(c.x - width/2) >= threshold) {
+      c.hasPlayed = false;  // reset when no longer colliding
+    }
     // Set the color of the line and draw it
     line.setLineColor(color(255));
     line.setThickness(2);  // Set thickness inside the class

@@ -4,7 +4,7 @@ class NoteCircle {
   float x, y;
   float size;       // Variable for size of the circle
   color noteColor;  // Variable for the color of the circle
-
+  boolean hasPlayed = false;
   // Constructor
   NoteCircle(String name, int midi) {
     this.name = name;
