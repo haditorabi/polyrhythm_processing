@@ -49,6 +49,7 @@ class NoteCircle {
     circle(x, y, size);  // Draw the circle
     fill(255);  // White for text
     textAlign(CENTER, CENTER);
+    textSize(11);
     text(name, x, y - size / 2 - 10);  // Display the note name above the circle
   }
 }

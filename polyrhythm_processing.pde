@@ -11,6 +11,8 @@
 //}
 PImage bgImage;
 NoteSpiral spiral;
+boolean isPaused = false;
+
 void setup() {
   size(1200, 800);
   background(0);
@@ -19,8 +21,22 @@ void setup() {
   bgImage = loadImage("gradient.jpeg"); 
   spiral = new NoteSpiral();
 }
-
+void keyPressed() {
+  if (key == ' ') {
+    isPaused = !isPaused;
+    println("⏯ Paused: " + isPaused);
+  }
+}
 void draw() {
-  background(bgImage);
-  spiral.updateAndDraw();
+  if (!isPaused) {
+    background(bgImage);
+    spiral.updateAndDraw();
+  } else {
+    // Optional: overlay a pause indicator
+    fill(255, 200);
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    text("Paused", width / 2, height / 1.23);
+  }
+
 }
