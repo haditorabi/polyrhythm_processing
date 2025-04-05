@@ -27,8 +27,8 @@ class NoteSpiral {
     }
 
     // Set the color of the line and draw it
-    line.setLineColor(color(255, 0, 0)); // Example: Red color
-    line.setThickness(5);  // Set thickness inside the class
+    line.setLineColor(color(255));
+    line.setThickness(2);  // Set thickness inside the class
     line.drawLine();  // Draw the line
   }
 }

@@ -10,7 +10,7 @@ class LineToTop {
     this.startY = startY;
     this.endX = width / 2;  // Always start from the center of the screen (x)
     this.endY = 0;          // Always end at the top of the screen (y = 0)
-    this.thickness = 2;     // Default thickness (can be changed inside the class)
+    this.thickness = 10;     // Default thickness (can be changed inside the class)
   }
 
   // Method to set the color externally
