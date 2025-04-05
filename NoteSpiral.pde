@@ -29,18 +29,21 @@ class NoteSpiral {
       NoteCircle c = circles.get(i);
       c.updatePosition(tf, i, circles.size(), centerX, centerY, rotationAngle);
       c.display();
-    }
-    if (abs(c.x - width/2) < threshold && !c.hasPlayed) {
-      midi.sendNote(c.midi, 100, 200);  // velocity 100, duration 200ms
-      c.hasPlayed = true;  // prevent retriggering
-    }
-    
-    if (abs(c.x - width/2) >= threshold) {
-      c.hasPlayed = false;  // reset when no longer colliding
+      if (abs(c.x - width/2) < threshold && !c.hasPlayed) {
+        midi.sendNote(c.midi, 100, 200);  // velocity 100, duration 200ms
+        c.hasPlayed = true;  // prevent retriggering
+      }
+      
+      if (abs(c.x - width/2) >= threshold) {
+        c.hasPlayed = false;  // reset when no longer colliding
+      }
+
     }
     // Set the color of the line and draw it
     line.setLineColor(color(255));
     line.setThickness(2);  // Set thickness inside the class
     line.drawLine();  // Draw the line
+    midi.update();  // Handles delayed note-offs
+
   }
 }

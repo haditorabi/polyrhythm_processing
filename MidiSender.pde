@@ -5,6 +5,7 @@ class MidiSender {
   MidiDevice outputDevice;
   Receiver midiOut;
   HashMap<String, Integer> noteMap;
+  ArrayList<MidiNoteEvent> activeNotes = new ArrayList<MidiNoteEvent>();
 
   MidiSender(String deviceName) {
     initNoteMap();  // build the note map first
@@ -44,8 +45,7 @@ class MidiSender {
   // Existing method for MIDI number
   void sendNote(int note, int velocity, int durationMillis) {
     sendNoteOn(0, note, velocity);
-    delay(durationMillis);
-    sendNoteOff(0, note, velocity);
+    activeNotes.add(new MidiNoteEvent(note, velocity, 0, durationMillis));
   }
 
   void sendNoteOn(int channel, int pitch, int velocity) {
@@ -65,6 +65,16 @@ class MidiSender {
       midiOut.send(msg, -1);
     } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+  void update() {
+    long now = millis();
+    for (int i = activeNotes.size() - 1; i >= 0; i--) {
+      MidiNoteEvent e = activeNotes.get(i);
+      if (now >= e.offTimeMillis) {
+        sendNoteOff(e.channel, e.note, e.velocity);
+        activeNotes.remove(i);
+      }
     }
   }
 
