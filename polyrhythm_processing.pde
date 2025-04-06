@@ -1,7 +1,7 @@
 
 PImage bgImage;
 NoteSpiral spiral;
-boolean isPaused = false;
+boolean isPaused = true;
 
 void setup() {
   size(1200, 800);
