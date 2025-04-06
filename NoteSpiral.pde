@@ -15,8 +15,8 @@ class NoteSpiral {
   }
 
   void updateAndDraw() {
-    tf += 0.0001;
-    rotationAngle += 0.001;  // Gradually increment the rotation angle for smooth rotation
+    tf += 0.000001;
+    rotationAngle += 0.01;  // Gradually increment the rotation angle for smooth rotation
 
     float centerX = width / 2;
     float centerY = height / 2;
@@ -30,7 +30,7 @@ class NoteSpiral {
       c.updatePosition(tf, i, circles.size(), centerX, centerY, rotationAngle);
       c.display();
       if (abs(c.x - width/2) < threshold && abs(c.y) < height/2 && !c.hasPlayed) {
-        midi.sendNote(c.midi, 100, 200);
+        midi.sendNote(c.midi, 100, 300);
         c.hasPlayed = true; 
       }
       

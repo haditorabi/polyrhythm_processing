@@ -5,7 +5,7 @@ class AllowedNotes {
 
   AllowedNotes() {
     noteMap = new HashMap<String, Integer>();
-    addRange("C1", 24); addRange("D1", 26); addRange("E1", 28); addRange("F1", 29);
+    addRange("", 0); addRange("C1", 24); addRange("D1", 26); addRange("E1", 28); addRange("F1", 29);
     addRange("G1", 31); addRange("A1", 33); addRange("B1", 35);
     addRange("C2", 36); addRange("D2", 38); addRange("E2", 40); addRange("F2", 41);
     addRange("G2", 43); addRange("A2", 45); addRange("B2", 47);
