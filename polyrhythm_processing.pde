@@ -3,13 +3,14 @@ PImage bgImage;
 NoteSpiral spiral;
 boolean isPaused = true;
 ArrayList<PianoKey> pianoKeys = new ArrayList<PianoKey>();
+AnimatedBackground animatedBg;
 
 void setup() {
   size(1200, 800);
   background(0);
   noStroke();
   colorMode(HSB);
-  bgImage = loadImage("gradient.jpeg");
+  animatedBg = new AnimatedBackground("gradient1.jpg");
   spiral = new NoteSpiral();
 }
 void keyPressed() {
@@ -20,7 +21,8 @@ void keyPressed() {
 }
 void draw() {
   if (!isPaused) {
-    background(bgImage);
+    animatedBg.update();
+    animatedBg.display();
     spiral.updateAndDraw();
   } else {
     // Optional: overlay a pause indicator
