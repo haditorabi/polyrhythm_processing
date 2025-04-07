@@ -5,18 +5,20 @@ class NoteSpiral {
   float tf = 10;
   float rotationAngle = 0;
   LineToTop line;  // Declare the LineToTop object
+  Piano piano;
 
   NoteSpiral() {
     AllowedNotes map = new AllowedNotes();
     circles = map.getNoteCircles();
-    midi = new MidiSender("ProcessingToDAW");
+    piano = new Piano(); 
+    midi = new MidiSender("ProcessingToDAW", piano);
     // Initialize the LineToTop object with the center of the spiral
     line = new LineToTop(width / 2, height / 2);
   }
 
   void updateAndDraw() {
     tf += 0.0001;
-    rotationAngle += 0.01;  // Gradually increment the rotation angle for smooth rotation
+    rotationAngle += 0.05;  // Gradually increment the rotation angle for smooth rotation
 
     float centerX = width / 2;
     float centerY = height / 2;
@@ -43,6 +45,7 @@ class NoteSpiral {
     line.setLineColor(color(255));
     line.setThickness(2);  // Set thickness inside the class
     line.drawLine();  // Draw the line
+    piano.draw();
     midi.update();  // Handles delayed note-offs
 
   }

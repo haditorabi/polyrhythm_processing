@@ -13,16 +13,18 @@ class PianoKey {
     this.h = h;
   }
 
-  void draw() {
-    if (isBlack) {
-      fill(active ? color(255, 0, 0) : 0);
-      noStroke();
-      rect(x, y, w, h);
+  void display() {
+    if (active) {
+      fill(isBlack ? 100 : 180);  // Gray out active keys
     } else {
-      fill(active ? color(255, 150, 150) : 255);
-      stroke(0);
-      rect(x, y, w, h);
-      noStroke();
+      fill(isBlack ? 0 : 255);
     }
+    stroke(0);
+    rect(x, y, w, h);
+    noStroke();
+  }
+
+  void setActive(boolean a) {
+    this.active = a;
   }
 }

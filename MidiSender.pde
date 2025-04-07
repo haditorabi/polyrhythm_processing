@@ -6,8 +6,9 @@ class MidiSender {
   Receiver midiOut;
   HashMap<String, Integer> noteMap;
   ArrayList<MidiNoteEvent> activeNotes = new ArrayList<MidiNoteEvent>();
-
-  MidiSender(String deviceName) {
+  Piano piano;
+  MidiSender(String deviceName, Piano pianoRef) {
+    piano = pianoRef;
     initNoteMap();  // build the note map first
 
     try {
@@ -46,6 +47,7 @@ class MidiSender {
   void sendNote(int note, int velocity, int durationMillis) {
     sendNoteOn(0, note, velocity);
     activeNotes.add(new MidiNoteEvent(note, velocity, 0, durationMillis));
+    if (piano != null) piano.setKeyActive(note, true);
   }
 
   void sendNoteOn(int channel, int pitch, int velocity) {
@@ -63,6 +65,7 @@ class MidiSender {
       ShortMessage msg = new ShortMessage();
       msg.setMessage(ShortMessage.NOTE_OFF, channel, pitch, velocity);
       midiOut.send(msg, -1);
+      if (piano != null) piano.setKeyActive(pitch, false);
     } catch (Exception e) {
       e.printStackTrace();
     }

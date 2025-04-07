@@ -3,13 +3,16 @@ PImage bgImage;
 NoteSpiral spiral;
 boolean isPaused = true;
 ArrayList<PianoKey> pianoKeys = new ArrayList<PianoKey>();
+Piano piano;
 
 void setup() {
   size(1200, 800);
   background(0);
   noStroke();
   colorMode(HSB);
-  bgImage = loadImage("gradient.jpeg");
+  piano = new Piano();
+
+  bgImage = loadImage("gradient.jpeg"); 
   spiral = new NoteSpiral();
 }
 void keyPressed() {
@@ -28,5 +31,8 @@ void draw() {
     textSize(48);
     textAlign(CENTER, CENTER);
     text("Paused", width / 2, height / 1.23);
+  }
+  for (PianoKey key : pianoKeys) {
+    key.draw();
   }
 }
