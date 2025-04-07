@@ -34,6 +34,7 @@ class NoteSpiral {
       if (abs(c.x - width/2) < threshold && abs(c.y) < height/2 && !c.hasPlayed) {
         midi.sendNote(c.midi, 100, 300);
         c.hasPlayed = true; 
+        c.triggerGlow();
       }
       
       if (abs(c.x - width/2) >= threshold) {

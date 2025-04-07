@@ -2,54 +2,111 @@ class NoteCircle {
   String name;
   int midi;
   float x, y;
-  float size;       // Variable for size of the circle
-  color noteColor;  // Variable for the color of the circle
+  float size;
+  color noteColor;
   boolean hasPlayed = false;
-  // Constructor
+
+  // 🌟 Glow properties
+  float glowAlpha = 2;
+  float glowMaxAlpha = 255;
+  float glowDecayRate = 2.0;
+  float glowSizeMultiplier = 1.8;
+  color glowColor = color(#FFFFFF);
+  int glowRays = 8;
+  float glowPulse = 3.0;
+
   NoteCircle(String name, int midi) {
     this.name = name;
     this.midi = midi;
-    this.x = 0;
-    this.y = 0;
-    this.size = 8;  // Default size
-    this.noteColor = color(255, 200);  // Default color (white-ish)
+    this.size = 8;
+    this.noteColor = color(255, 200);
   }
 
-  // Update position based on the spiral layout and apply rotation to the entire set around its center
   void updatePosition(float tf, int index, int totalCount, float centerX, float centerY, float rotationAngle) {
-    float dist = sqrt(index / (float)totalCount) * (height-120) * 0.45;
+    float dist = sqrt(index / (float)totalCount) * (height - 120) * 0.45;
     float ang = TWO_PI * tf * index;
 
-    // Calculate the initial position based on the spiral geometry (without rotation)
     float baseX = dist * cos(ang) + centerX;
     float baseY = dist * sin(ang) + centerY;
 
-    // Apply rotation to the entire set (rotate around the center)
     float rotatedX = cos(rotationAngle) * (baseX - centerX) - sin(rotationAngle) * (baseY - centerY) + centerX;
     float rotatedY = sin(rotationAngle) * (baseX - centerX) + cos(rotationAngle) * (baseY - centerY) + centerY;
 
-    // Smooth the position of each circle (lerp to smooth the movement)
-    x = rotatedX; // Directly assign rotatedX to x
-    y = rotatedY; // Directly assign rotatedY to y
+    x = rotatedX;
+    y = rotatedY;
   }
 
-  // Setter for size
-  void setSize(float newSize) {
-    this.size = newSize;
+  void triggerGlow() {
+    glowAlpha = glowMaxAlpha;
+    hasPlayed = true;
   }
 
-  // Setter for color
-  void setColor(color newColor) {
-    this.noteColor = newColor;
-  }
-
-  // Method to display the circle and the note name
   void display() {
-    fill(noteColor);  // Set the fill color
-    circle(x, y, size);  // Draw the circle
-    fill(255);  // White for text
+    if (glowAlpha > 0) {
+      drawGlow();
+      glowAlpha -= glowDecayRate;
+      glowAlpha = max(glowAlpha, 0);
+    }
+
+    // Base note circle
+    fill(noteColor);
+    noStroke();
+    circle(x, y, size);
+
+    // Label
+    fill(255);
     textAlign(CENTER, CENTER);
     textSize(11);
-    text(name, x, y - size / 2 - 10);  // Display the note name above the circle
+    text(name, x, y - size / 2 - 10);
+  }
+
+  void drawGlow() {
+    pushStyle();
+    noStroke();
+
+    float glowSize = size * glowSizeMultiplier;
+    float alpha = glowAlpha;
+
+    // 1. Glowing halo
+    for (int i = 0; i < 3; i++) {
+      float ringSize = glowSize * (1.0 + 0.2 * i);
+      fill(glowColor, alpha * (0.3 - 0.08 * i));
+      ellipse(x, y, ringSize, ringSize);
+    }
+
+    // 2. Spark rays
+    pushMatrix();
+    translate(x, y);
+    stroke(glowColor, alpha * 0.25);
+    strokeWeight(1.5);
+    for (int i = 0; i < glowRays; i++) {
+      float angle = TWO_PI * i / glowRays + random(-0.02, 0.02);
+      float len = size * glowSizeMultiplier * random(0.9, 1.3);
+      line(0, 0, cos(angle) * len, sin(angle) * len);
+    }
+    popMatrix();
+
+    popStyle();
+  }
+
+  // Optional tuning
+  void setGlowColor(color c) {
+    glowColor = c;
+  }
+
+  void setGlowFadeRate(float rate) {
+    glowDecayRate = rate;
+  }
+
+  void setGlowSizeMultiplier(float mult) {
+    glowSizeMultiplier = mult;
+  }
+
+  void setGlowIntensity(float maxAlpha) {
+    glowMaxAlpha = maxAlpha;
+  }
+
+  void setGlowRays(int rays) {
+    glowRays = rays;
   }
 }
