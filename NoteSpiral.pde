@@ -13,15 +13,15 @@ class NoteSpiral {
     piano = new Piano(); 
     midi = new MidiSender("ProcessingToDAW", piano);
     // Initialize the LineToTop object with the center of the spiral
-    line = new LineToTop(width / 2, height / 2);
+    line = new LineToTop(width / 2, (height-120) / 2);
   }
 
   void updateAndDraw() {
     tf += 0.0001;
-    rotationAngle += 0.05;  // Gradually increment the rotation angle for smooth rotation
+    rotationAngle += 0.0005;  // Gradually increment the rotation angle for smooth rotation
 
     float centerX = width / 2;
-    float centerY = height / 2;
+    float centerY = (height-120) / 2;
     float threshold = 8;  // How close to center x to count as a collision
 
 

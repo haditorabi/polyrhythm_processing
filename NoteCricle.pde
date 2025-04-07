@@ -17,7 +17,7 @@ class NoteCircle {
 
   // Update position based on the spiral layout and apply rotation to the entire set around its center
   void updatePosition(float tf, int index, int totalCount, float centerX, float centerY, float rotationAngle) {
-    float dist = sqrt(index / (float)totalCount) * height * 0.45;
+    float dist = sqrt(index / (float)totalCount) * (height-120) * 0.45;
     float ang = TWO_PI * tf * index;
 
     // Calculate the initial position based on the spiral geometry (without rotation)
