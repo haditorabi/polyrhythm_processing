@@ -80,8 +80,8 @@ class NoteCircle {
     stroke(glowColor, alpha * 0.25);
     strokeWeight(1.5);
     for (int i = 0; i < glowRays; i++) {
-      float angle = TWO_PI * i / glowRays + random(-0.02, 0.02);
-      float len = size * glowSizeMultiplier * random(0.9, 1.3);
+      float angle = TWO_PI * i / glowRays + random(-0.05, 0.05);
+      float len = size * glowSizeMultiplier * random(0.3, .8);
       line(0, 0, cos(angle) * len, sin(angle) * len);
     }
     popMatrix();

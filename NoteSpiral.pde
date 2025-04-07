@@ -32,7 +32,7 @@ class NoteSpiral {
       c.updatePosition(tf, i, circles.size(), centerX, centerY, rotationAngle);
       c.display();
       if (abs(c.x - width/2) < threshold && abs(c.y) < height/2 && !c.hasPlayed) {
-        midi.sendNote(c.midi, 100, 300);
+        midi.sendNote(c.midi, 100, 1400);
         c.hasPlayed = true; 
         c.triggerGlow();
       }
