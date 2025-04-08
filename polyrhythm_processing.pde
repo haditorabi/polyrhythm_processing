@@ -6,10 +6,11 @@ ArrayList<PianoKey> pianoKeys = new ArrayList<PianoKey>();
 AnimatedBackground animatedBg;
 
 void setup() {
-  size(1200, 800);
+  size(1200, 800, P3D);
   background(0);
   noStroke();
-  colorMode(HSB);
+  colorMode(HSB, 1, 1, 1, 1);
+  pixelDensity(1);
   animatedBg = new AnimatedBackground("gradient1.jpg");
   spiral = new NoteSpiral();
 }
@@ -21,8 +22,8 @@ void keyPressed() {
 }
 void draw() {
   if (!isPaused) {
-    animatedBg.update();
-    animatedBg.display();
+    //animatedBg.update();
+    //animatedBg.display();
     spiral.updateAndDraw();
   } else {
     // Optional: overlay a pause indicator
