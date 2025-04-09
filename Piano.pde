@@ -70,14 +70,14 @@ class Piano {
     return names[index];
   }
 
-  void draw() {
+  void draw(PGraphics shaderBuffer) {
     // Draw white keys first
     for (PianoKey key : pianoKeys) {
-      if (!key.isBlack) key.display();
+      if (!key.isBlack) key.display(shaderBuffer);
     }
     // Then draw black keys over them
     for (PianoKey key : pianoKeys) {
-      if (key.isBlack) key.display();
+      if (key.isBlack) key.display(shaderBuffer);
     }
   }
 

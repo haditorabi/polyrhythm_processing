@@ -1,6 +1,7 @@
 MidiSender midi;
 PShader metaballShader;
 Theme theme;
+PGraphics shaderBuffer;
 
 class NoteSpiral {
   ArrayList<NoteCircle> circles;
@@ -20,6 +21,8 @@ class NoteSpiral {
     metaballShader = loadShader("frag.glsl", "vert.glsl");
     // Select random theme
     theme = getRandomTheme();
+    shaderBuffer = createGraphics(width, height, P3D);
+
   }
 
   void updateAndDraw() {
@@ -49,8 +52,6 @@ class NoteSpiral {
       if (abs(c.x - width/2) >= threshold) {
         c.hasPlayed = false;  
       }
-      c.display();
-
     }
     for (int i = 0; i < circles.size(); i++) {      
       // Fill position and radius data
@@ -64,20 +65,23 @@ class NoteSpiral {
       dataCirclesColors[i * 3 + 1] = hexToRGB(theme.colors[0])[1];
       dataCirclesColors[i * 3 + 2] = hexToRGB(theme.colors[0])[2];
     }
+    line.setLineColor(color(255));
+    line.setThickness(2);  // Set thickness inside the class
+
     metaballShader.set("metaballs", dataCircles, 3);
     metaballShader.set("metaballColors", dataCirclesColors, 3);
     metaballShader.set("WIDTH", (float)width);
     metaballShader.set("HEIGHT", (float)height);
+    shaderBuffer.beginDraw();
+    shaderBuffer.background(unhex(theme.background.substring(1) + "FF"));
+    shaderBuffer.shader(metaballShader);
+    shaderBuffer.rect(0, 0, width, height);
+    shaderBuffer.resetShader();
+    piano.draw(shaderBuffer);
+    line.draw(shaderBuffer);  // Draw the line
+    shaderBuffer.endDraw();
+    image(shaderBuffer, 0, 0, width, height);
     
-    shader(metaballShader);
-    rect(0, 0, width, height);
-    resetShader();
-
-    // Set the color of the line and draw it
-    line.setLineColor(color(255));
-    line.setThickness(2);  // Set thickness inside the class
-    line.drawLine();  // Draw the line
-    piano.draw();
     midi.update();  // Handles delayed note-offs
 
   }

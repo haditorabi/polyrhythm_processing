@@ -13,15 +13,15 @@ class PianoKey {
     this.h = h;
   }
 
-  void display() {
+  void display(PGraphics shaderBuffer) {
     if (active) {
-      fill(isBlack ? 100 : 180);  // Gray out active keys
+      shaderBuffer.fill(isBlack ? 100 : 180);  // Gray out active keys
     } else {
-      fill(isBlack ? 0 : 255);
+      shaderBuffer.fill(isBlack ? 0 : 255);
     }
-    stroke(0);
-    rect(x, y, w, h);
-    noStroke();
+    shaderBuffer.stroke(0);
+    shaderBuffer.rect(x, y, w, h);
+    shaderBuffer.noStroke();
   }
 
   void setActive(boolean a) {

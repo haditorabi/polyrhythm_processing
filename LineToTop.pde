@@ -24,9 +24,9 @@ class LineToTop {
   }
 
   // Method to draw the line on the screen
-  void drawLine() {
-    stroke(lineColor);         // Set the line color
-    strokeWeight(thickness);    // Set the thickness of the line
-    line(startX, startY, endX, endY);  // Draw the line from the center to the top of the screen
+  void draw(PGraphics shaderBuffer) {
+    shaderBuffer.stroke(lineColor);         // Set the line color
+    shaderBuffer.strokeWeight(thickness);    // Set the thickness of the line
+    shaderBuffer.line(startX, startY, endX, endY);  // Draw the line from the center to the top of the screen
   }
 }
